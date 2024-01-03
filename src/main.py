@@ -19,4 +19,7 @@ router = APIRouter(prefix="/api")
 def server_status():
     return {"Status": "Active"}
 
+from src.authentication.auth_router import router as auth_router
+router.include_router(auth_router)
+
 app.include_router(router)
