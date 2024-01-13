@@ -5,6 +5,10 @@ class Settings(BaseSettings):
     mongodb_url: str
     db_name: str
 
+    secret_key: str
+    algorithm: str
+    access_token_expire_minutes: int
+
     model_config = SettingsConfigDict(env_file=".env")
 
 settings = Settings()
