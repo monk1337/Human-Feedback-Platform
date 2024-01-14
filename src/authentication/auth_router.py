@@ -31,7 +31,7 @@ def login(response: Response, user: UserModel):
     payload = TokenPayload(mobile=user.mobile, role=user.role)
     jwt_token = create_access_token(payload)
 
-    response.set_cookie(key="access_token", value=jwt_token, httponly=True)
+    response.set_cookie(key="access_token", value=jwt_token, httponly=True, secure=True, samesite="none")
     return {"message": "User Logged in Successfully"}
 
 @router.get("/auth/login")

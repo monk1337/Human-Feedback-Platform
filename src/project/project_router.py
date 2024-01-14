@@ -25,6 +25,6 @@ async def create_project(file: UploadFile, request: Request, response: Response)
     payload = TokenPayload(mobile=project.admin_mobile, role="admin")
     jwt_token = create_access_token(payload)
 
-    response.set_cookie(key="access_token", value=jwt_token, httponly=True)
+    response.set_cookie(key="access_token", value=jwt_token, httponly=True, secure=True, samesite="none")
 
     return {"message": "Project created successfully", "project_id": project_id}
