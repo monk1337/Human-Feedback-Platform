@@ -43,6 +43,20 @@ services:
     restart: always
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs_voicecord", "--port",  "27023" ]
 
+  voicecord_backend:
+    build: .
+    command: python3 wsgi.py
+    volumes:
+      - vc_app:/app
+    networks:
+      - mongors-vc-network
+    ports:
+      - 8001:8001
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+
 networks:
   mongors-vc-network:
     driver: bridge
@@ -54,3 +68,5 @@ volumes:
   mongo1_vc_config:
   mongo2_vc_config:
   mongo3_vc_config:
+  vc_app:
+
