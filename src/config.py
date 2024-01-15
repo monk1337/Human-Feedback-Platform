@@ -3,6 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     mongodb_url: str
+    rs_name: str
     db_name: str
 
     secret_key: str
