@@ -21,14 +21,12 @@ def save_dataset(file: UploadFile):
     return filename
 
 def save_project(file: UploadFile, project: ProjectModel) -> str:
-    print(project)
-    verify_user_logged_in(UserModel(mobile=project.admin_mobile, role="admin"))
+    # verify_user_logged_in(UserModel(mobile=project.admin_mobile, role="admin"))
 
     filename = save_dataset(file)
     project.dataset_name = filename
 
-    saved_project = db.projects.insert_one(jsonable_encoder(project))
-    print(str(saved_project.inserted_id))
+    saved_project = db.projects.insert_one(project.model_dump(by_alias=True, exclude=["id"]))
 
     return str(saved_project.inserted_id)
 

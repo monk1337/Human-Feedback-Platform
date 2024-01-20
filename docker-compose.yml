@@ -2,54 +2,55 @@ version: '3.8'
 
 services:
   mongo1:
-    container_name: vc-mongo1
+    container_name: if-mongo1
     image: mongo:7.0.4
     volumes:
-      - "mongo1_vc_data:/data/db"
-      - "mongo1_vc_config:/data/configdb"
+      - "mongo1_if_data:/data/db"
+      - "mongo1_if_config:/data/configdb"
     networks:
-      - mongors-vc-network
+      - mongors-if-network
     ports:
       - 27021:27021
     links:
       - mongo2
       - mongo3
     restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs_voicecord", "--port",  "27021"]
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs_insightflow", "--port",  "27021"]
   
   mongo2:
-    container_name: vc-mongo2
+    container_name: if-mongo2
     image: mongo:7.0.4
     volumes:
-      - "mongo2_vc_data:/data/db"
-      - "mongo2_vc_config:/data/configdb"
+      - "mongo2_if_data:/data/db"
+      - "mongo2_if_config:/data/configdb"
     networks:
-      - mongors-vc-network
+      - mongors-if-network
     ports:
       - 27022:27022
     restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs_voicecord", "--port",  "27022" ]
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs_insightflow", "--port",  "27022" ]
   
   mongo3:
-    container_name: vc-mongo3
+    container_name: if-mongo3
     image: mongo:7.0.4
     volumes:
-      - "mongo3_vc_data:/data/db"
-      - "mongo3_vc_config:/data/configdb"
+      - "mongo3_if_data:/data/db"
+      - "mongo3_if_config:/data/configdb"
     networks:
-      - mongors-vc-network
+      - mongors-if-network
     ports:
       - 27023:27023
     restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs_voicecord", "--port",  "27023" ]
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs_insightflow", "--port",  "27023" ]
 
-  voicecord_backend:
+  insightflow_backend:
+    container_name: insightflow_backend
     build: .
     command: python3 wsgi.py
     volumes:
-      - vc_app:/app
+      - if_app:/app
     networks:
-      - mongors-vc-network
+      - mongors-if-network
     ports:
       - 8001:8001
     depends_on:
@@ -58,15 +59,15 @@ services:
       - mongo3
 
 networks:
-  mongors-vc-network:
+  mongors-if-network:
     driver: bridge
 
 volumes:
-  mongo1_vc_data:
-  mongo2_vc_data:
-  mongo3_vc_data:
-  mongo1_vc_config:
-  mongo2_vc_config:
-  mongo3_vc_config:
-  vc_app:
+  mongo1_if_data:
+  mongo2_if_data:
+  mongo3_if_data:
+  mongo1_if_config:
+  mongo2_if_config:
+  mongo3_if_config:
+  if_app:
 

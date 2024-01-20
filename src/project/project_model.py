@@ -1,8 +1,11 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional
+from pydantic import BaseModel, Field, BeforeValidator
+from typing import List, Optional, Annotated
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class ProjectModel(BaseModel):
-    project_name: str = Field(alias='projectName')
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    project_name: str
     admin_name: str
     admin_mobile: str
     recorder: Optional[List[dict]] = None

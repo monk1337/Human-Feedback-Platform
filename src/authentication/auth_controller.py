@@ -111,16 +111,4 @@ def get_user(mobile: str) -> dict | None:
 
 def get_verified_user(mobile: str) -> dict | None:
     return db.users.find_one({ "mobile": mobile, "verified": True })
-# def create_user(user: User):
-
-#     if(get_user(user.mobile)):
-#         raise HTTPException(HTTP_409_CONFLICT, {"message": "User already exists"})
-
-#     db.users.insert_one(
-#         {
-#             "mobile": user.mobile,
-#             "password": get_password_hash(user.password)
-#         }
-#     )
-
 
